@@ -1,0 +1,29 @@
+{
+    "name": "xjw/rpc",
+    "license": "MIT",
+    "description": "熊居网rpc",
+    "type": "project",
+    "authors": [
+        {
+            "name": "xjw",
+            "email": "xjw@030.cn"
+        }
+    ],
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Rpc\\Servers\\": "Servers"
+        }
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "topthink/think-validate": "1.0.1",
+        "topthink/think-orm": "1.2.4"
+    },
+    "minimum-stability": "dev"
+}
