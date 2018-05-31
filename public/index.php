@@ -6,18 +6,12 @@
 
 require_once '../vendor/autoload.php';
 
-$action = $_GET['at'];
+$requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
 
-if (! get_obj($action)) {
-    // 如果初始化异常
-}
-
-function get_obj($obj_name)
-{
-    $obj_name = '\Rpc\Servers\\' . $obj_name;
-    if (! class_exists($obj_name)) {
-        return false;
-    }
-    $class = new \ReflectionClass($obj_name);
-    return $class->newInstance();
+if (empty($requestUri)) {
+    (new \Yar_Server(new \App\Server\Error('Request Uri invalid')))->handle();
+} else {
+    list($class, $function) = explode('.', $requestUri);
+    $server = new \Yar_Server(new \App\Bootstrap\Service($class, $function));
+    $server->handle();
 }

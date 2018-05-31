@@ -4,14 +4,14 @@
  * User: zithan <zithan@163.com>
  */
 
-namespace Rpc\Servers;
+namespace App\Server;
 
 class Comment extends Base
 {
     /**
      * Sub
      */
-    public function sub($a, $b) {
-        return $a - $b;
+    public function sub($zithan, $marin) {
+        return 'comment sub ......' . $zithan . '....'. $marin;
     }
 }
