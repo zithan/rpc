@@ -28,8 +28,8 @@ class Service
         $class = '\App\Server\\' . $class;
 
         if (! class_exists($class)) {
-        return 'class not found...';
-    }
+            return 'class not found...';
+        }
 
         if (! method_exists($class, $function)) {
             return 'method not found...';

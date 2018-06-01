@@ -28,6 +28,6 @@ class Xiongju extends Base
         // 保存
         $rs = (new \App\Model\Xiongju())->createOne($data);
 
-        return yarRtDt([$rs]);
+        return yarRtDt('执行成功', [$rs]);
     }
 }

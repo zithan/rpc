@@ -19,11 +19,11 @@
  */
 
 if (!function_exists('yarRtDt')) {
-    function yarRtDt(array $data = [], string $message = '', int $errCode = 0)
+    function yarRtDt(string $message = '', array $data = [], int $errCode = 0)
     {
         return [
-            'data' => $data,
             'message' => $message,
+            'data' => $data,
             'errCode' => $errCode
         ];
     }
