@@ -4,7 +4,10 @@
  * User: zithan <zithan@163.com>
  */
 
-require_once '../vendor/autoload.php';
+define('APP_PATH', realpath(dirname(__FILE__) . '/../'));
+
+require_once  APP_PATH . '/vendor/autoload.php';
+require_once APP_PATH . '/app/common/helper.php';
 
 $requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
 

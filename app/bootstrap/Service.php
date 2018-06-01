@@ -17,9 +17,10 @@ class Service
         $this->function = $function;
     }
 
-    public function run(string $params = ''){
-        $params = json_decode($params, true);
-       return $this->get_obj($this->class, $this->function, $params);
+    public function run(array $params = [])
+    {
+        //$params = json_decode($params, true);
+        return $this->get_obj($this->class, $this->function, $params);
     }
 
     function get_obj($class, $function, $params)
@@ -27,8 +28,8 @@ class Service
         $class = '\App\Server\\' . $class;
 
         if (! class_exists($class)) {
-            return 'class not found...';
-        }
+        return 'class not found...';
+    }
 
         if (! method_exists($class, $function)) {
             return 'method not found...';

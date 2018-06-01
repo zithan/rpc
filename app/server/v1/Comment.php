@@ -8,10 +8,11 @@ namespace App\Server;
 
 class Comment extends Base
 {
-    /**
-     * Sub
-     */
     public function sub($zithan, $marin) {
         return 'comment sub ......' . $zithan . '....'. $marin;
+    }
+
+    public function add($zithan, $marin) {
+        return 'comment add ......' . $zithan . '....'. $marin;
     }
 }
