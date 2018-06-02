@@ -1,12 +1,12 @@
 {
-    "name": "xjw/rpc",
+    "name": "xjw/rpc-yar",
     "license": "MIT",
-    "description": "熊居网rpc",
+    "description": "xjw rpc yar",
     "type": "project",
     "authors": [
         {
-            "name": "xjw",
-            "email": "xjw@030.cn"
+            "name": "zithan",
+            "email": "zithan@163.como"
         }
     ],
     "repositories": {
@@ -28,7 +28,12 @@
         "php": ">=7.0.0",
         "topthink/think-validate": "1.0.1",
         "topthink/think-orm": "1.2.4",
-        "monolog/monolog": "^2.0@dev"
+        "monolog/monolog": "^2.0@dev",
+        "relay/relay": "2.x@dev",
+        "php-di/php-di": "dev-master"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "nikic/fast-route": "dev-master"
+    }
 }
