@@ -4,7 +4,7 @@
  * User: zithan <zithan@163.com>
  */
 
-namespace App\Server;
+namespace App\Controller;
 
 use App\Model\SkuCollect as SkuCollectModel;
 

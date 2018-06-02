@@ -20,7 +20,7 @@
             "App\\Bootstrap\\": "app/bootstrap",
             "App\\Validate\\": "app/validate",
             "App\\Common\\": "app/common",
-            "App\\Server\\": "app/server/v1",
+            "App\\Controller\\": "app/controller/v1",
             "App\\Model\\": "app/model"
         }
     },
@@ -29,11 +29,11 @@
         "topthink/think-validate": "1.0.1",
         "topthink/think-orm": "1.2.4",
         "monolog/monolog": "^2.0@dev",
+        "php-di/php-di": "dev-master",
         "relay/relay": "2.x@dev",
-        "php-di/php-di": "dev-master"
+        "zendframework/zend-diactoros": "^1.7@dev",
+        "middlewares/fast-route": "dev-master",
+        "middlewares/request-handler": "dev-master"
     },
-    "minimum-stability": "dev",
-    "require-dev": {
-        "nikic/fast-route": "dev-master"
-    }
+    "minimum-stability": "dev"
 }

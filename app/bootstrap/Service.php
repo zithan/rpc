@@ -6,36 +6,31 @@
 
 namespace App\Bootstrap;
 
+use App\Controller\Base as BaseController;
+
 class Service
 {
     private $class;
-    private $function;
+    private $method;
 
-    public function __construct($class, $function)
+    public function __construct(BaseController $class, string $method)
     {
         $this->class = $class;
-        $this->function = $function;
+        $this->method = $method;
     }
 
     public function run(array $params = [])
     {
-        //$params = json_decode($params, true);
-        return $this->get_obj($this->class, $this->function, $params);
+        try {
+            return call_user_func_array([$this->class, $this->method], $params);
+        } catch (\Exception $e) {
+            yarRtDt($e->getMessage(), -1);
+        }
     }
 
-    function get_obj($class, $function, $params)
+    public function __invoke(): void
     {
-        $class = '\App\Server\\' . $class;
-
-        if (! class_exists($class)) {
-            return 'class not found...';
-        }
-
-        if (! method_exists($class, $function)) {
-            return 'method not found...';
-        }
-
-        $class = new \ReflectionClass($class);
-        return call_user_func_array(array($class->newInstance(), $function), $params);
+        $server = new \Yar_Server($this);
+        $server->handle();
     }
 }
