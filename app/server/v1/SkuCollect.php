@@ -33,7 +33,7 @@ class SkuCollect extends Base
         unset($countDt);
 
         if (!$model->createAll($countDts)) {
-            return yarRtDt('统计失败', -1);
+            return yarRtDt('统计失败', -1, []);
         }
 
         return yarRtDt('统计成功');

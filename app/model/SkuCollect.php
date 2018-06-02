@@ -10,6 +10,7 @@ use think\Db;
 
 class SkuCollect extends Base
 {
+    // 保存多个sku的销量和人气
     public function createAll(array $data)
     {
         try {
@@ -22,6 +23,7 @@ class SkuCollect extends Base
         }
     }
 
+    // 获取支付状态为待付尾款和支付完成的一周订单
     public function countOrders()
     {
         try {
@@ -34,6 +36,7 @@ class SkuCollect extends Base
         }
     }
 
+    // 根据订单ids统计每个sku的销量
     public function countSkuByOrders(array $ordersIds)
     {
         try {
