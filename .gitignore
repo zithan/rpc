@@ -1,4 +1,5 @@
-.gitignore
-vendor
-composer.lock
-.idea
+/vendor
+/conf/application.ini
+/composer.lock
+/.idea
+/data

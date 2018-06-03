@@ -18,10 +18,14 @@
     "autoload": {
         "psr-4": {
             "App\\Bootstrap\\": "app/bootstrap",
+            "App\\Library\\": "app/library",
+            "App\\Middleware\\": "app/middleware",
             "App\\Validate\\": "app/validate",
             "App\\Common\\": "app/common",
-            "App\\Controller\\": "app/controller/v1",
-            "App\\Model\\": "app/model"
+            "App\\Controller\\": "app/controller",
+            "App\\Controller\\v1\\": "app/controller/v1",
+            "App\\Model\\": "app/model",
+            "Zithan\\Yar\\": "z-yar-client/src"
         }
     },
     "require": {

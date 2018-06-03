@@ -4,7 +4,7 @@
  * User: zithan <zithan@163.com>
  */
 
-namespace App\Controller;
+namespace App\Controller\v1;
 
 use App\Validate\Xiongju as XiongjuVldt;
 

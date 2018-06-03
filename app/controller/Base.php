@@ -8,4 +8,14 @@ class Base {
         // 认证
         // 限流
     }
+
+    protected function checkSign()
+    {
+        
+    }
+
+    protected function response()
+    {
+        
+    }
 }

@@ -28,9 +28,9 @@ class Service
         }
     }
 
-    public function __invoke(): void
-    {
-        $server = new \Yar_Server($this);
-        $server->handle();
-    }
+//    public function __invoke(): void
+//    {
+//        $server = new \Yar_Server($this);
+//        $server->handle();
+//    }
 }

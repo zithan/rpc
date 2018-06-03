@@ -13,11 +13,6 @@ use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
 use Relay\Relay;
-use Zend\Diactoros\ServerRequestFactory;
-use function FastRoute\simpleDispatcher;
-use FastRoute\RouteCollector;
-use Middlewares\FastRoute;
-use Middlewares\RequestHandler;
 
 use App\Bootstrap\Service;
 use App\Controller\Error as ErrorController;
@@ -34,6 +29,8 @@ use App\Controller\Error as ErrorController;
  set_error_handler("exception_error_handler", E_WARNING);*/
 
 try {
+    error_log(time().':'.'send req success'.PHP_EOL, 3, 't.log');
+
     $requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
     list($class, $method) = explode('.', $requestUri);
     $class = '\App\Controller\\' . $class;
@@ -53,17 +50,13 @@ try {
 
     $container = $containerBuilder->build();
 
-    $routes = simpleDispatcher(function (RouteCollector $r) {
-        $r->get('/Comment.sub', Service::class);
-    });
-
-    $middlewareQueue[] = new FastRoute($routes);
-    $middlewareQueue[] = new RequestHandler($container);
-
-    $requestHandler = new Relay($middlewareQueue);
-    $requestHandler->handle(ServerRequestFactory::fromGlobals());
+//    $middlewareQueue = [];
+//
+//    $relay = new Relay($middlewareQueue);
+//    $relay->handle();
 
     $service = $container->get(Service::class);
+
     $server = new \Yar_Server($service);
     $server->handle();
 } catch (\Exception $e) {
