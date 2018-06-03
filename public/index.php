@@ -15,25 +15,34 @@ use function DI\get;
 use Relay\Relay;
 
 use App\Bootstrap\Service;
-use App\Controller\Error as ErrorController;
+use App\Server\Error as ErrorController;
 
-/* function exception_error_handler($severity, $message, $file, $line)
+function exception_error_handler($severity, $message, $file, $line)
  {
+     //var_dump($severity);
      if (!(error_reporting() & $severity)) {
          return;
      }
      // @todo 记录使用异常日志
-     throw new \Exception($message, 0, $severity, $file, $line);
+     throw new \Exception($message);
  }
 
- set_error_handler("exception_error_handler", E_WARNING);*/
+ set_error_handler("exception_error_handler", E_NOTICE | E_WARNING);
 
 try {
-    error_log(time().':'.'send req success'.PHP_EOL, 3, 't.log');
+    error_log(time().':'.'send req success'.PHP_EOL, 3, APP_PATH . '/log/' . date('Ymd') . '.log');
 
-    $requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
+    $requestUri = strrchr($_SERVER['REQUEST_URI'], '/');
+    if (!$requestUri) {
+        // @todo 不合法的路径
+    }
+    $requestUri = ltrim($requestUri, '/');
+    if (!strpos($requestUri, '.')) {
+        // @todo 不合法的路径
+    }
     list($class, $method) = explode('.', $requestUri);
-    $class = '\App\Controller\\' . $class;
+
+    $class = '\\App\\Server\\v1\\' . $class;
     $class = new \ReflectionClass($class);
 
     $containerBuilder = new ContainerBuilder();

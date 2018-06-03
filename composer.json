@@ -23,7 +23,8 @@
             "App\\Validate\\": "app/validate",
             "App\\Common\\": "app/common",
             "App\\Controller\\": "app/controller",
-            "App\\Controller\\v1\\": "app/controller/v1",
+            "App\\Server\\": "app/server",
+            "App\\Server\\v1\\": "app/server/v1",
             "App\\Model\\": "app/model",
             "Zithan\\Yar\\": "z-yar-client/src"
         }

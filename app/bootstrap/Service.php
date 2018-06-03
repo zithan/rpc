@@ -6,7 +6,7 @@
 
 namespace App\Bootstrap;
 
-use App\Controller\Base as BaseController;
+use App\server\Base as BaseController;
 
 class Service
 {

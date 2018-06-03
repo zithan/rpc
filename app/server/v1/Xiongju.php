@@ -4,8 +4,9 @@
  * User: zithan <zithan@163.com>
  */
 
-namespace App\Controller\v1;
+namespace App\Server\v1;
 
+use App\Server\Base;
 use App\Validate\Xiongju as XiongjuVldt;
 
 class Xiongju extends Base
