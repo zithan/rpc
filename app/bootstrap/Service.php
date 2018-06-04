@@ -27,10 +27,4 @@ class Service
             yarRtDt($e->getMessage(), -1);
         }
     }
-
-//    public function __invoke(): void
-//    {
-//        $server = new \Yar_Server($this);
-//        $server->handle();
-//    }
 }

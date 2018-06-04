@@ -35,10 +35,7 @@
         "topthink/think-orm": "1.2.4",
         "monolog/monolog": "^2.0@dev",
         "php-di/php-di": "dev-master",
-        "relay/relay": "2.x@dev",
-        "zendframework/zend-diactoros": "^1.7@dev",
-        "middlewares/fast-route": "dev-master",
-        "middlewares/request-handler": "dev-master"
+        "relay/relay": "2.x@dev"
     },
     "minimum-stability": "dev"
 }
