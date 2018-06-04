@@ -13,6 +13,7 @@ use DI\ContainerBuilder;
 use function DI\create;
 use function DI\get;
 use Relay\Relay;
+use Predis\Client;
 
 use App\Bootstrap\Service;
 use App\Server\Error as ErrorController;
@@ -32,6 +33,7 @@ function exception_error_handler($severity, $message, $file, $line)
 try {
     error_log(time().':'.'send req success'.PHP_EOL, 3, APP_PATH . '/log/' . date('Ymd') . '.log');
 
+    // @todo 后期修改为路径映射-路由
     $requestUri = strrchr($_SERVER['REQUEST_URI'], '/');
     if (!$requestUri) {
         // @todo 不合法的路径
@@ -55,6 +57,10 @@ try {
             return $class->newInstance();
         },
         'method' => $method,
+        Client::class=> create(Client::class)->constructor(get('redis_config')),
+        'redis_config' => function () {
+            return require_once(APP_PATH . '/config/database.php');
+        },
     ]);
 
     $container = $containerBuilder->build();
@@ -65,6 +71,7 @@ try {
 //    $relay->handle();
 
     $service = $container->get(Service::class);
+    $redis = $container->get(Client::class);
 
     $server = new \Yar_Server($service);
     $server->handle();

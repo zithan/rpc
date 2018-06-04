@@ -44,4 +44,9 @@ class Base {
             'data' => $data
         ];
     }
+
+    protected function pushMQ()
+    {
+        
+    }
 }

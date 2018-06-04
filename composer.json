@@ -25,6 +25,7 @@
             "App\\Controller\\": "app/controller",
             "App\\Server\\": "app/server",
             "App\\Server\\v1\\": "app/server/v1",
+            "App\\Server\\Common\\": "app/server/common",
             "App\\Model\\": "app/model",
             "Zithan\\Yar\\": "z-yar-client/src"
         }
@@ -35,7 +36,8 @@
         "topthink/think-orm": "1.2.4",
         "monolog/monolog": "^2.0@dev",
         "php-di/php-di": "dev-master",
-        "relay/relay": "2.x@dev"
+        "relay/relay": "2.x@dev",
+        "predis/predis": "^2.0@dev"
     },
     "minimum-stability": "dev"
 }
