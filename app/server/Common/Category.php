@@ -6,8 +6,9 @@
 
 namespace App\Server\Common;
 
+use App\Server\Base;
 
-class Category
+class Category extends Base
 {
     /**
      * 分类列表

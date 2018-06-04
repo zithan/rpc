@@ -6,8 +6,9 @@
 
 namespace App\Server\Common;
 
+use App\Server\Base;
 
-class Brand
+class Brand extends Base
 {
     /**
      * 品牌首字母集
