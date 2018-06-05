@@ -11,9 +11,9 @@ use App\Server\Base;
 
 class Buy extends Base
 {
-    public function search(array $condition = [], array $config = []) {
+    public function search(int $dealerId, array $condition = [], array $config = []) {
         try {
-            return (new Goods())->getSKUList($condition, $config);
+            return Goods::getSKUList($dealerId, $condition, $config);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }

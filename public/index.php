@@ -18,6 +18,8 @@ use Predis\Client;
 use App\Bootstrap\Service;
 use App\Server\Error as ErrorController;
 
+use think\Db;
+
 function exception_error_handler($severity, $message, $file, $line)
  {
      //var_dump($severity);
@@ -32,6 +34,8 @@ function exception_error_handler($severity, $message, $file, $line)
 
 try {
     error_log(time().':'.'send req success'.PHP_EOL, 3, APP_PATH . '/log/' . date('Ymd') . '.log');
+
+    Db::setConfig(require_once(APP_PATH . '/config/database.php'));
 
     // @todo 后期修改为路径映射-路由
     $requestUri = strrchr($_SERVER['REQUEST_URI'], '/');

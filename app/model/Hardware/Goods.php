@@ -12,12 +12,7 @@ use App\Server\Error as ErrorController;
 
 class Goods extends Base
 {
-    public function test()
-    {
-        return 'test';
-    }
-
-    public function getSKUList(array $conditions, array $config = [])
+    public static function getSKUList(int $dealerId, array $conditions, array $config = [])
     {
         try {
             $page = $config['page'] ?? 1;
@@ -26,17 +21,26 @@ class Goods extends Base
             $orderBy = $config['orderBy'] ?? 'ASC';
 
             // order fields
-            $orderField = $config['orderField'] ?? 'default';
-            // [过滤]
+            $orderField = $config['orderField'] ?? '';
+            // [排序字段]人气、总销量、采购价
             switch ($orderField) {
-                case 'title':
-                    $orderField = 'nd.ad_title';
+                case 'popularity':
+                    $orderField = 'gg.popularity';
+                    break;
+                case 'sale_num':
+                    $orderField = 'gg.sale_num';
+                    break;
+                case 'price':
+                    $orderField = 'gg.shop_price';
                     break;
                 default:
-                    $orderField = 'gg.sale_num,gg.goods_common_id';
+                    $orderField = '';
             }
 
             $order = [$orderField => $orderBy];
+            if (empty($orderField)) {
+                $order = ['gg.sale_num','gg.goods_common_id'=>'DESC'];
+            }
 
             // [过滤]掉非法的查询条件，不可以含有三维数组
             array_filter($conditions, function ($item) {
@@ -46,6 +50,8 @@ class Goods extends Base
             });
             // [过滤]
             $conditions = filter_var_array($conditions, FILTER_SANITIZE_STRING);
+
+            //return $this->getDealerBlacklist($dealerId);
 
             // 查询条件
             $map = [];
@@ -69,7 +75,7 @@ class Goods extends Base
                             $value = $fix . $value . $fix;
                         });
                         $map[] = ['g.goodsname', 'like', $kws];
-                        $map[] = ['g.goods_sn', 'like', '%' . trim($condition) . '%', 'OR'];
+                        $map[] = ['g.goods_sn', 'like', '%' . trim($condition) . '%', 'or'];
                         break;
                 }
             }
@@ -81,24 +87,56 @@ class Goods extends Base
             // '审核状态1未审核2审核未通过3审核通过'
             $map[] = ['g.review_status', '=', 3];
 
-            // @todo 获取经销商的商品黑名单
+            // 获取经销商的商品黑名单
+            $dealerBlacklist = self::getDealerBlacklist($dealerId);
+            if ($dealerBlacklist) {
+                $map[] = ['g.goods_common_id', 'not in', $dealerBlacklist];
+            }
 
             // 查询
             $subQuery = Db::name('goods')->alias('g')
-                ->field('g.goods_id,g.goods_common_id')
-                ->join('dealer_black db', 'db.goods_common_id=g.goods_common_id and db.dealer_id=1', 'LEFT')
+                ->field('g.goods_id,g.goods_common_id,g.sale_num,g.shop_price,sc.popularity')
+                ->join('dealer_black db', 'db.goods_common_id=g.goods_common_id and db.dealer_id=' . $dealerId, 'LEFT')
+                ->join('sku_collect sc', 'sc.id=g.goods_id', 'LEFT')
+                ->where($map)
+                ->whereNull('db.goods_common_id')
                 ->order('g.default desc')
                 ->buildSql();
 //            return $subQuery;
 
-            Db::table($subQuery . ' gg')
-                ->field('gg.goods_id')
+            $list = Db::table($subQuery . ' gg')
                 ->group('gg.goods_common_id')
-                ->order('gg.sale_num,gg.goods_common_id desc')
+                ->order($order)
                 ->page((int)$page, (int)$pageSize)
-                ->select();
+                ->fetchSql(true)
+                ->column('gg.goods_id');
+
+            // count
+            $total = 0;
+            if ($list) {
+                $total = Db::name('goods')->alias('g')
+                    ->join('dealer_black db', 'db.goods_common_id=g.goods_common_id and db.dealer_id=' . $dealerId, 'LEFT')
+                    ->join('sku_collect sc', 'sc.id=g.goods_id', 'LEFT')
+                    ->where($map)
+                    ->whereNull('db.goods_common_id')
+                    ->group('g.goods_common_id')
+                    ->count();
+            }
+
+            return ['list' => $list, 'total' => $total];
         } catch (\Exception $e) {
             (new \Yar_Server(new ErrorController($e->getMessage())))->handle();
         }
+    }
+
+    // 获取经销商的商品黑名单
+    private static function getDealerBlacklist(int $dealerId)
+    {
+        return Db::name('dealer_group_blackgoods')->alias('dgb')
+            ->distinct(true)
+            ->join('dealer_to_group dtg', 'dtg.sg_id = dgb.group_id', 'INNER')
+            ->where('dtg.dealer_id', '=', $dealerId)
+            //->fetchSql(true)
+            ->column('dgb.goods_common_id');
     }
 }

@@ -12,6 +12,6 @@ class Base
 {
     public function __construct()
     {
-        Db::setConfig(require_once(APP_PATH . '/config/database.php'));
+        
     }
 }
