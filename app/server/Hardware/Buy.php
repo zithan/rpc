@@ -22,7 +22,8 @@ class Buy extends Base
             // [过滤]
             $conditions = filter_var_array($conditions, FILTER_SANITIZE_STRING);
 
-            return Goods::getSKUList($dealerId, $conditions, $config);
+            $result = Goods::getList($dealerId, $conditions, $config);
+            return $this->response('查询结果', 0, $result);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
