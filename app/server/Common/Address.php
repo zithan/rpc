@@ -7,6 +7,7 @@
 namespace App\Server\Common;
 
 use App\Server\Base;
+use App\Validate\Address as addressVldt;
 
 class Address extends Base
 {
@@ -17,9 +18,30 @@ class Address extends Base
      * @author hutong
      * @date   2018-06-04T21:46:34+080
      */
-    public function list()
+    public function list(array $condition = [], array $config = [])
     {
+        $validate = new addressVldt();
+        $validate->goCheck($params);
 
+        //过滤(限定字段，非法字符)
+        $data = $validate->getDataByRule($params);
+        // 简单处理
+        $data = filter_var_array($data, FILTER_SANITIZE_STRING);
+
+        $pageIdx = $this->getPageIdx($data['page'], $data['pageSize']);
+
+        $conditions = array(
+            'type' => $data['type'],
+            'kid' => $data['kid'],
+        );
+
+        $config = array(
+            'page' =>
+        );
+
+        $result = (new \App\Model\Address())->getList($conditions, $pageIdx[0], $pageIdx[1]);
+
+        return yarRtDt('执行成功', 0, [$result]);
     }
 
     /**

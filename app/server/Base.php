@@ -47,6 +47,14 @@ class Base {
 
     protected function pushMQ()
     {
-        
+
+    }
+
+    protected function getPageIdx($page, $pageSize)
+    {
+        $page = ($page < 1) ? 1 : $page;
+        $startRecord = ($page - 1) * $pageSize;
+
+        return array((int)$startRecord, (int)$pageSize);
     }
 }
