@@ -55,6 +55,7 @@ class Goods extends Base
 
             // 查询条件
             $map = [];
+            $mapOr = [];
             foreach ($conditions as $key => $condition) {
                 switch ($key) {
                     case 'brand_id':
@@ -75,7 +76,7 @@ class Goods extends Base
                             $value = $fix . $value . $fix;
                         });
                         $map[] = ['g.goodsname', 'like', $kws];
-                        $map[] = ['g.goods_sn', 'like', '%' . trim($condition) . '%', 'or'];
+                        $mapOr[] = ['g.goods_sn', 'like', '%' . trim($condition) . '%', 'or'];
                         break;
                 }
             }
@@ -99,6 +100,7 @@ class Goods extends Base
                 ->join('dealer_black db', 'db.goods_common_id=g.goods_common_id and db.dealer_id=' . $dealerId, 'LEFT')
                 ->join('sku_collect sc', 'sc.id=g.goods_id', 'LEFT')
                 ->where($map)
+                ->whereOr($mapOr)
                 ->whereNull('db.goods_common_id')
                 ->order('g.default desc')
                 ->buildSql();
@@ -108,7 +110,7 @@ class Goods extends Base
                 ->group('gg.goods_common_id')
                 ->order($order)
                 ->page((int)$page, (int)$pageSize)
-                ->fetchSql(true)
+                //->fetchSql(true)
                 ->column('gg.goods_id');
 
             // count
@@ -118,6 +120,7 @@ class Goods extends Base
                     ->join('dealer_black db', 'db.goods_common_id=g.goods_common_id and db.dealer_id=' . $dealerId, 'LEFT')
                     ->join('sku_collect sc', 'sc.id=g.goods_id', 'LEFT')
                     ->where($map)
+                    ->whereOr($mapOr)
                     ->whereNull('db.goods_common_id')
                     ->group('g.goods_common_id')
                     ->count();
