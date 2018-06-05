@@ -42,9 +42,9 @@ try {
     if (!strpos($requestUri, '.')) {
         // @todo 不合法的路径
     }
-    list($class, $method) = explode('.', $requestUri);
+    list($module, $class, $method) = explode('.', $requestUri);
 
-    $class = '\\App\\Server\\v1\\' . $class;
+    $class = "\\App\\Server\\$module\\$class";
     $class = new \ReflectionClass($class);
 
     $containerBuilder = new ContainerBuilder();
@@ -59,7 +59,7 @@ try {
         'method' => $method,
         Client::class=> create(Client::class)->constructor(get('redis_config')),
         'redis_config' => function () {
-            return require_once(APP_PATH . '/config/database.php');
+            return require_once(APP_PATH . '/config/redis.php');
         },
     ]);
 

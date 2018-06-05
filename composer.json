@@ -24,8 +24,6 @@
             "App\\Common\\": "app/common",
             "App\\Controller\\": "app/controller",
             "App\\Server\\": "app/server",
-            "App\\Server\\v1\\": "app/server/v1",
-            "App\\Server\\Common\\": "app/server/common",
             "App\\Model\\": "app/model",
             "Zithan\\Yar\\": "z-yar-client/src"
         }
@@ -33,7 +31,7 @@
     "require": {
         "php": ">=7.0.0",
         "topthink/think-validate": "1.0.1",
-        "topthink/think-orm": "1.2.4",
+        "topthink/think-orm": "1.2.8",
         "monolog/monolog": "^2.0@dev",
         "php-di/php-di": "dev-master",
         "relay/relay": "2.x@dev",
