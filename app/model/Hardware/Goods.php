@@ -42,17 +42,6 @@ class Goods extends Base
                 $order = ['gg.sale_num','gg.goods_common_id'=>'DESC'];
             }
 
-            // [过滤]掉非法的查询条件，不可以含有三维数组
-            array_filter($conditions, function ($item) {
-                if (is_array($item)) {
-                    return false;
-                }
-            });
-            // [过滤]
-            $conditions = filter_var_array($conditions, FILTER_SANITIZE_STRING);
-
-            //return $this->getDealerBlacklist($dealerId);
-
             // 查询条件
             $map = [];
             $mapOr = [];

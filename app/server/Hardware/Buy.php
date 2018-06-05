@@ -11,9 +11,18 @@ use App\Server\Base;
 
 class Buy extends Base
 {
-    public function search(int $dealerId, array $condition = [], array $config = []) {
+    public function search(int $dealerId, array $conditions = [], array $config = []) {
         try {
-            return Goods::getSKUList($dealerId, $condition, $config);
+            // [过滤]掉非法的查询条件，不可以含有三维数组
+            array_filter($conditions, function ($item) {
+                if (is_array($item)) {
+                    return false;
+                }
+            });
+            // [过滤]
+            $conditions = filter_var_array($conditions, FILTER_SANITIZE_STRING);
+
+            return Goods::getSKUList($dealerId, $conditions, $config);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
